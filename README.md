@@ -36,7 +36,9 @@ Enter Visual mode, select your text and run `:OSCYank`.
 
 You may want to map the command:
 ```vim
-xnoremap <leader>c <Plug>(oscyank)
+xnoremap <leader>c  <Plug>(oscyank)
+nnoremap <leader>c  <Plug>(oscyank)
+nnoremap <leader>cc <Plug>(oscyank)
 ```
 
 If you prefer to copy text from a particular register, use:
