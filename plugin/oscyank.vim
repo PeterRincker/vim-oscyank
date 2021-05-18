@@ -14,7 +14,7 @@ function! YankOSC52(str)
 
   if length > limit
     echohl WarningMsg
-    echo '[oscyank] Selection has length ' . length . ', limit is ' . limit
+    echom '[oscyank] Selection has length ' . length . ', limit is ' . limit
     echohl None
     return
   endif
@@ -33,17 +33,36 @@ function! YankOSC52(str)
 
   let osc52 = get(s:osc52_table, osc52_key, s:osc52_table['default'])(a:str)
   call s:raw_echo(osc52)
-  echo '[oscyank] ' . length . ' characters copied'
+  echom '[oscyank] ' . length . ' characters copied'
 endfunction
 
-function! s:visual()
-  let reg = @a
+function! s:op(...) abort
+  if !a:0
+    let &operatorfunc = matchstr(expand('<sfile>'), '[^. ]*$')
+    return 'g@'
+  endif
+
+  let sel_save = &selection
+  let reg_save = @@
+  let cb_save = &clipboard
+  let visual_marks_save = [getpos("'<"), getpos("'>")]
+
+  let type = a:1
+
   try
-    silent! normal! gvy
-    return @@
+    set clipboard= selection=inclusive
+    let commands = {'line': "'[V']y", 'char': "`[v`]y", 'block': "`[\<c-v>`]y"}
+    let cmd = get(commands, type, '')
+    silent exe 'noautocmd keepjumps normal! ' . cmd
+    call YankOSC52(@@)
   finally
-    let @@ = reg
+    call setreg('"', reg_save)
+    call setpos("'<", visual_marks_save[0])
+    call setpos("'>", visual_marks_save[1])
+    let &clipboard = cb_save
+    let &selection = sel_save
   endtry
+  return ''
 endfunction
 
 " This function base64's the entire string and wraps it in a single OSC52.
@@ -161,7 +180,9 @@ let s:b64_table = [
       \ "w","x","y","z","0","1","2","3","4","5","6","7","8","9","+","/",
       \ ]
 
-xnoremap <script> <Plug>(oscyank) :<c-u>call YankOSC52(<Sid>visual())<cr>
+xnoremap <script> <expr> <Plug>(oscyank) <SID>op()
+nnoremap <script> <expr> <Plug>(oscyank) <SID>op()
+nnoremap <script> <expr> <Plug>(oscyank-line) <SID>op() . '_'
 
 command! -range=1 OSCYank call YankOSC52(join(getline(<line1>, <line2>), "\n"))
 command! -nargs=? -register OSCYankReg call YankOSC52(getreg("<reg>" == "" ? '"' : "<reg>"))
