@@ -38,7 +38,7 @@ You may want to map the command:
 ```vim
 xnoremap <leader>c  <Plug>(oscyank)
 nnoremap <leader>c  <Plug>(oscyank)
-nnoremap <leader>cc <Plug>(oscyank)
+nnoremap <leader>cc <Plug>(oscyank-yank)
 ```
 
 If you prefer to copy text from a particular register, use:
