@@ -166,5 +166,5 @@ let s:b64_table = [
       \ "w","x","y","z","0","1","2","3","4","5","6","7","8","9","+","/",
       \ ]
 
-command! -range OSCYank <line1>,<line2>call VisualOSC52()
+command! -range=1 OSCYank call YankOSC52(join(getline(<line1>, <line2>), "\n"))
 command! -nargs=? -register OSCYankReg call YankOSC52(getreg("<reg>" == "" ? '"' : "<reg>"))
