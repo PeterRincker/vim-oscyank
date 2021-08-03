@@ -186,3 +186,11 @@ nnoremap <script> <expr> <Plug>(oscyank-line) <SID>op() . '_'
 
 command! -range=1 OSCYank call YankOSC52(join(getline(<line1>, <line2>), "\n"))
 command! -nargs=? -register OSCYankReg call YankOSC52(getreg("<reg>" == "" ? '"' : "<reg>"))
+
+if !get(g:, 'oscyank_no_mappings', 0)
+  if !hasmapto('<Plug>(oscyank)', 'n') && maparg(g:mapleader . 'y', 'n') ==# ''
+    xnoremap <leader>y  <Plug>(oscyank)
+    nnoremap <leader>y  <Plug>(oscyank)
+    nnoremap <leader>yy <Plug>(oscyank-line)
+  endif
+endif
