@@ -36,9 +36,9 @@ Enter Visual mode, select your text and run `:OSCYank`.
 
 You may want to map the command:
 ```vim
-xnoremap <leader>y  <Plug>(oscyank)
-nnoremap <leader>y  <Plug>(oscyank)
-nnoremap <leader>yy <Plug>(oscyank-yank)
+xmap <leader>y  <Plug>(oscyank)
+nmap <leader>y  <Plug>(oscyank)
+nmap <leader>yy <Plug>(oscyank-yank)
 ```
 
 These are the default mappings. Use `let g:oscyank_no_mappings = 1` to prevent default mappings.
