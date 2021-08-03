@@ -36,10 +36,12 @@ Enter Visual mode, select your text and run `:OSCYank`.
 
 You may want to map the command:
 ```vim
-xnoremap <leader>c  <Plug>(oscyank)
-nnoremap <leader>c  <Plug>(oscyank)
-nnoremap <leader>cc <Plug>(oscyank-yank)
+xnoremap <leader>y  <Plug>(oscyank)
+nnoremap <leader>y  <Plug>(oscyank)
+nnoremap <leader>yy <Plug>(oscyank-yank)
 ```
+
+These are the default mappings. Use `let g:oscyank_no_mappings = 1` to prevent default mappings.
 
 If you prefer to copy text from a particular register, use:
 ```vim
