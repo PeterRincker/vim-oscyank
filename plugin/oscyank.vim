@@ -188,7 +188,7 @@ command! -range=1 OSCYank call YankOSC52(join(getline(<line1>, <line2>), "\n"))
 command! -nargs=? -register OSCYankReg call YankOSC52(getreg("<reg>" == "" ? '"' : "<reg>"))
 
 if !get(g:, 'oscyank_no_mappings', 0)
-  if !hasmapto('<Plug>(oscyank)', 'n') && maparg(g:mapleader . 'y', 'n') ==# ''
+  if !hasmapto('<Plug>(oscyank)', 'n') && maparg('<leader>y', 'n') ==# ''
     xmap <leader>y  <Plug>(oscyank)
     nmap <leader>y  <Plug>(oscyank)
     nmap <leader>yy <Plug>(oscyank-line)
